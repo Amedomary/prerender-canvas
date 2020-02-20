@@ -1,0 +1,12 @@
+html {
+    background-color: #fff;
+}
+
+* {
+    margin: 0;
+}
+
+#amedomary,
+#static {
+    position: absolute;
+}

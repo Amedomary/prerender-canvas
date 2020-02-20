@@ -37,8 +37,8 @@ setTimeout(() => {
   const dotSize = 1;
   const imgStep = dotSize;
   const speed = {
-    down: 10,
-    top: 11
+    down: 4,
+    top: 4
   };
   const prerenderArr = [];
 

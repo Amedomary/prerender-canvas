@@ -16,17 +16,6 @@ const image = document.createElement("img");
 image.src = image64;
 
 setTimeout(() => {
-  const getImageData = function(image) {
-    const canvas = document.createElement("canvas");
-
-    canvas.width = image.width;
-    canvas.height = image.height;
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(image, 0, 0);
-
-    return ctx.getImageData(0, 0, image.width, image.height);
-  };
-
   const imageData = getImageData(image);
   const canvas = document.getElementById("amedomary");
   canvas.width = innerWidth - 20;
@@ -48,24 +37,10 @@ setTimeout(() => {
   const dotSize = 1;
   const imgStep = dotSize;
   const speed = {
-    down: 4,
-    top: 6
+    down: 10,
+    top: 11
   };
   const prerenderArr = [];
-
-  function getRandomArbitrary(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-
-  function getAngle(x1, y1, x2, y2) {
-    const a = y1 - y2;
-    const b = x1 - x2;
-    const c = Math.sqrt(a ** 2 + b ** 2);
-    const cos = a / c;
-    const sin = b / c;
-
-    return { cos, sin };
-  }
 
   class Dot {
     constructor(x, y, color) {
@@ -118,6 +93,31 @@ setTimeout(() => {
     }
   }
 
+  function getImageData(image) {
+    const canvas = document.createElement("canvas");
+
+    canvas.width = image.width;
+    canvas.height = image.height;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(image, 0, 0);
+
+    return ctx.getImageData(0, 0, image.width, image.height);
+  };
+
+  function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  function getAngle(x1, y1, x2, y2) {
+    const a = y1 - y2;
+    const b = x1 - x2;
+    const c = Math.sqrt(a ** 2 + b ** 2);
+    const cos = a / c;
+    const sin = b / c;
+
+    return { cos, sin };
+  }
+
   function getPixel(imagedata, x, y) {
     const position = (x + imagedata.width * y) * 4;
     const data = imagedata.data;
@@ -157,7 +157,7 @@ setTimeout(() => {
     }
   }
 
-  function reCalculateDot(params) {
+  function reCalculateDot() {
     for (let i in mash) {
       mash[i].checkPosition();
     }
@@ -174,27 +174,22 @@ setTimeout(() => {
     reCalculateDot();
     draw();
 
-    if (true) {
-      let blob;
-      canvasPrerender.toBlob(e => {
-        blob = e;
+    // prerender
+    canvasPrerender.toBlob(blob => {
+      const reader = new FileReader();
+      reader.readAsDataURL(blob); // конвертирует Blob в base64 и вызывает onload
 
-        const reader = new FileReader();
-        reader.readAsDataURL(blob); // конвертирует Blob в base64 и вызывает onload
-
-        reader.onload = function() {
-          const image = document.createElement("img");
-          image.src = reader.result;
-          prerenderArr.push(image);
-        };
-      });
-    }
+      reader.onload = function() {
+        const image = document.createElement("img");
+        image.src = reader.result;
+        prerenderArr.push(image);
+      };
+    });
 
     stats.end();
     if (doneDots !== mash.length) {
       requestAnimationFrame(renderLoop);
     } else {
-      console.log("finally");
       requestAnimationFrame(drawPreImg);
     }
   }

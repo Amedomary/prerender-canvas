@@ -9,10 +9,19 @@ html {
 h1 {
     margin: 20px;
     text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+h2 {
+    text-align: center;
+    position: relative;
+    z-index: 10;
 }
 
 #amedomary {
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 1;
 }

@@ -6,6 +6,10 @@ data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANIAAADHCAYAAABsgg1qAAABRGlDQ1BJQ0
 
 const loader = document.getElementById("loader");
 
+function hidePreloaderElement() {
+  loader.setAttribute("style", "display: none");
+};
+
 // stats
 var stats = new Stats();
 stats.setMode(0);
@@ -192,7 +196,7 @@ setTimeout(() => {
     if (doneDots !== mash.length) {
       requestAnimationFrame(renderLoop);
     } else {
-      loader.setAttribute("style", "display: none");
+      hidePreloaderElement();
       requestAnimationFrame(drawPreImg);
     }
   }

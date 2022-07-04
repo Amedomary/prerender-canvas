@@ -10,14 +10,6 @@ function hidePreloaderElement() {
   loader.setAttribute("style", "display: none");
 };
 
-// stats
-// var stats = new Stats();
-// stats.setMode(0);
-// stats.domElement.style.position = "absolute";
-// stats.domElement.style.left = "0px";
-// stats.domElement.style.top = "0px";
-// document.body.appendChild(stats.domElement);
-
 const image = document.createElement("img");
 image.src = image64;
 
@@ -175,7 +167,6 @@ setTimeout(() => {
   }
 
   function renderLoop() {
-    stats.begin();
 
     reCalculateDot();
     draw();
@@ -192,7 +183,6 @@ setTimeout(() => {
       };
     });
 
-    stats.end();
     if (doneDots !== mash.length) {
       requestAnimationFrame(renderLoop);
     } else {
@@ -203,13 +193,11 @@ setTimeout(() => {
 
   let i = 0;
   function drawPreImg() {
-    stats.begin();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(prerenderArr[i], 0, 0);
     i = i + 1;
 
     if (i < prerenderArr.length) {
-      stats.end();
       requestAnimationFrame(drawPreImg);
     }
   }
